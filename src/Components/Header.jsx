@@ -20,7 +20,7 @@ export default function Header() {
     <header id="main-header">
       <div id="title">
         <img src={logo} />
-        <h1 >ReactFood</h1>
+        <h1 >The Food Spot</h1>
       </div>
       <nav>
         <Button textOnly onClick={handleShowCart}>Cart ({totalCartItems})</Button>

@@ -4,6 +4,7 @@ import CartContext from "../store/CartContext.jsx";
 import { CurrencyFormatter } from "../util/CurrencyFormatter";
 import Button from "./UI/Button";
 import UserProgressContext from "../store/UserProgressContext.jsx";
+import CarItem from "./CartItem.jsx";
 
 export default function Cart() {
   const cartctx = useContext(CartContext);
@@ -20,12 +21,10 @@ export default function Cart() {
 
   return (
     <Modal className="cart" open={userProgressCtx.progress === "cart"}>
-      <h3>Your Cart</h3>
+      <h2>Your Cart</h2>
       <ul>
         {cartctx.items.map((item) => (
-          <li key={item.id}>
-            {item.name} - {item.quantity}
-          </li>
+          <CarItem key={item.id} name={item.name} quantity={item.quantity} price={item.price}/>
         ))}
       </ul>
       <p className="cart-total">{CurrencyFormatter.format(carttotal)} </p>
