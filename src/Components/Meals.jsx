@@ -19,7 +19,6 @@ export default function Meals() {
         }
 
         const meals = await response.json();
-        console.log("Fetched meals:", meals);
         if (isMounted) { // Only update state if component is still mounted
           setLoadedMeals(meals);
         }

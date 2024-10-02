@@ -1,14 +1,18 @@
 import { CurrencyFormatter } from "../util/CurrencyFormatter.js";
 
-export default function CarItem({ name, quantity, price}) {
+export default function CartItem({ name, quantity, price, onDecrease, onIncrease}) {
+
+
     return (
-        <p className="cart-item">
+        <li className="cart-item">
+        <p >
             {name} - {quantity} x {CurrencyFormatter.format(price)}
-            <p className="cart-item-actions">
-                <button>-</button>
-                <p>{quantity}</p>
-                <button>+</button>
-            </p>
         </p>
+            <p className="cart-item-actions">
+                <button onClick={onDecrease}>-</button>
+                <span>{quantity}</span>
+                <button onClick={onIncrease}>+</button>
+            </p>
+       </li>
     );
 }
