@@ -1,79 +1,86 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer } from 'react';
 
 const CartContext = createContext({
     items: [],
     addItem: (item) => {},
-    removeItem: (id) => {}
+    removeItem: (id) => {},
 });
 
-function CartReducer(state, action) {
-    if(action.type === 'ADD_ITEM'){
-        const existingCartItemIndex = state.items.findIndex(
-            (item) => item.id === action.item.id 
-        );
+function cartReducer(state, action) {
+    switch (action.type) {
+        case 'ADD_ITEM': {
+            const existingCartItemIndex = state.items.findIndex(
+                (item) => item.id === action.item.id
+            );
 
-        const updatedItems = [...state.items];
+            const updatedItems = [...state.items];
 
-        if(existingCartItemIndex > -1){
-            const existingItem = state.items[existingCartItemIndex];
-            const updatedItem = {
-                ...existingItem,
-                quantity: existingItem.quantity +1,
-            };
-            updatedItems[existingCartItemIndex] = updatedItem;
-        } else {
-            updatedItems.push({...action.item, quantity: 1});
+            if (existingCartItemIndex > -1) {
+                // Update existing item quantity
+                const existingItem = state.items[existingCartItemIndex];
+                const updatedItem = {
+                    ...existingItem,
+                    quantity: existingItem.quantity + 1,
+                };
+                updatedItems[existingCartItemIndex] = updatedItem;
+            } else {
+                // Add new item to cart
+                updatedItems.push({ ...action.item, quantity: 1 });
+            }
+
+            return { ...state, items: updatedItems };
         }
 
-        return {...state, items: updatedItems};
+        case 'REMOVE_ITEM': {
+            const existingCartItemIndex = state.items.findIndex(
+                (item) => item.id === action.id
+            );
+            const existingCartItem = state.items[existingCartItemIndex];
 
-    }
+            const updatedItems = [...state.items];
 
-    if(action.type === 'REMOVE_ITEM'){
-        const existingCartItemIndex = state.items.findIndex(
-            (item) => item.id === action.id
-        );
-        const existingCartItem = state.items[existingCartItemIndex];
+            if (existingCartItem.quantity === 1) {
+                // Remove item from cart if quantity is 1
+                updatedItems.splice(existingCartItemIndex, 1);
+            } else {
+                // Decrease item quantity
+                const updatedItem = {
+                    ...existingCartItem,
+                    quantity: existingCartItem.quantity - 1,
+                };
+                updatedItems[existingCartItemIndex] = updatedItem;
+            }
 
-        const updatedItems = [...state.items];
-
-        if(existingCartItem.quantity === 1){
-            updatedItems.splice(existingCartItemIndex, 1);
-        } else {
-            const updatedItem = {
-                ...existingCartItem,
-                quantity: existingCartItem.quantity - 1,
-            };
-            updatedItems[existingCartItemIndex] = updatedItem;
+            return { ...state, items: updatedItems };
         }
 
+        default:
+            return state;
     }
-
-    return state;
 }
 
-export function CartContextProvider({childern}) {
-    const [cart, dispatchCardAction] = useReducer(CartReducer, { items: [] });
+export function CartContextProvider({ children }) {
+    const [cart, dispatchCartAction] = useReducer(cartReducer, { items: [] });
 
     function addItem(item) {
-        dispatchCardAction({type: 'ADD_ITEM', item});
-
-    } 
+        dispatchCartAction({ type: 'ADD_ITEM', item });
+    }
 
     function removeItem(id) {
-        dispatchCardAction({type: 'REMOVE_ITEM', id})
-
+        dispatchCartAction({ type: 'REMOVE_ITEM', id });
     }
 
     const cartContext = {
-        items: cart.item,
+        items: cart.items, 
         addItem,
         removeItem,
     };
 
-    console.log(cartContext);
-
-    return <CartContext.Provider value={cartContext}>{childern}</CartContext.Provider>;
+    return (
+        <CartContext.Provider value={cartContext}>
+            {children} 
+        </CartContext.Provider>
+    );
 }
 
 export default CartContext;
