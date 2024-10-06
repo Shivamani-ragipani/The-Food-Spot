@@ -43,4 +43,5 @@ Check out the live demo of the project here:<b> https://the-food-spot.onrender.c
 
 <h4>Screenshots</h4>
 ![image](https://github.com/user-attachments/assets/590359ee-cfd2-481a-af51-e665a98b34bc)
-<img src="https://drive.google.com/file/d/1mBeFpxyTtVgIS_HRo_TfHTttzRlKYl07/view?usp=drive_link" />
+
+![Screenshot 2024-10-06 182123](https://github.com/user-attachments/assets/2ea5cc01-ead6-4106-8bab-1f9732ec555b)
