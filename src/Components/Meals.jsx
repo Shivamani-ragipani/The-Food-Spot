@@ -13,7 +13,7 @@ export default function Meals() {
     async function fetchMeals() {
       setIsLoading(true);
       try {
-        const response = await fetch("http://localhost:5000/meals");
+        const response = await fetch("https://the-food-spot-backend.onrender.com/meals");
 
         if (!response.ok) {
           throw new Error(`Failed to fetch meals. Status: ${response.status}`);

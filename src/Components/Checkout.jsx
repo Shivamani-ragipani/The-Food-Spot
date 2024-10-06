@@ -38,7 +38,7 @@ export default function Checkout() {
     const customerData = Object.fromEntries(fd.entries());
 
     try {
-      const response = await fetch("http://localhost:5000/orders", {
+      const response = await fetch("https://the-food-spot-backend.onrender.com/orders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

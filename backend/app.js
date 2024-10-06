@@ -70,6 +70,6 @@ app.use((req, res) => {
 });
 
 app.listen(5000, () => {
-  console.log("Server is running on http://localhost:5000");
+  console.log("Server is running on https://the-food-spot-backend.onrender.com");
 });
 

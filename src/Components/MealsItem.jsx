@@ -15,7 +15,7 @@ export default function MealsItem({meal}) {
     return(
         <li className="meal-item">
             <article>
-                <img src={`http://localhost:5000/${meal.image}`} alt={meal.name}/>
+                <img src={`https://the-food-spot-backend.onrender.com/${meal.image}`} alt={meal.name}/>
                 <h3>
                     {meal.name}
                 </h3>
