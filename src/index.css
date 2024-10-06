@@ -249,6 +249,11 @@ h1 {
   background-color: rgba(0, 0, 0, 0.55);
 }
 
+.Error{
+    text-align: center;
+    color: #ffc404;
+    border-color: #ffffff;
+}
 @keyframes fade-slide-up {
   from {
     opacity: 0;

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import MealsItem from "./MealsItem.jsx";
+import Error from "./Error/Error.jsx";
 
 export default function Meals() {
   const [loadedMeals, setLoadedMeals] = useState([]);
@@ -7,29 +8,29 @@ export default function Meals() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    let isMounted = true; // Track if the component is mounted
+    let isMounted = true;
 
     async function fetchMeals() {
-      setIsLoading(true); // Set loading state to true
+      setIsLoading(true);
       try {
-        const response = await fetch('http://localhost:5000/meals');
+        const response = await fetch("http://localhost:5000/meals");
 
         if (!response.ok) {
           throw new Error(`Failed to fetch meals. Status: ${response.status}`);
         }
 
         const meals = await response.json();
-        if (isMounted) { // Only update state if component is still mounted
+        if (isMounted) {
           setLoadedMeals(meals);
         }
       } catch (err) {
-        console.error(err); // Log the error object
-        if (isMounted) { // Only update state if component is still mounted
+        console.error(err);
+        if (isMounted) {
           setError(err.message);
         }
       } finally {
         if (isMounted) {
-          setIsLoading(false); // Set loading to false regardless of success or error
+          setIsLoading(false);
         }
       }
     }
@@ -37,26 +38,26 @@ export default function Meals() {
     fetchMeals();
 
     return () => {
-      isMounted = false; // Cleanup function to avoid state updates on unmounted component
+      isMounted = false;
     };
   }, []);
 
   if (isLoading) {
-    return <p>Loading meals...</p>;
+    return (
+      <p className="Error">Loading Meals...</p>
+    );
   }
 
   if (error) {
-    return <p>Error: {error}</p>;
+    return <Error title="Failed to Fetch Meals" msg={error} />;
   }
 
   return (
     <ul id="meals">
       {loadedMeals.length > 0 ? (
-        loadedMeals.map((meal) => (
-          <MealsItem key={meal.id} meal={meal} />
-        ))
+        loadedMeals.map((meal) => <MealsItem key={meal.id} meal={meal} />)
       ) : (
-        <p>No meals available.</p>
+        <Error title="Failed to Fetch Meals." msg={error} />
       )}
     </ul>
   );
